@@ -41,28 +41,6 @@ The LED turns ON.
 When the object moves away, the LED turns OFF.
 This creates a touchless indication system.
 
-Arduino Code-C++
-
-
-int irSensor = 2;
-int led = 8;
-
-void setup() {
-  pinMode(irSensor, INPUT);
-  pinMode(led, OUTPUT);
-}
-
-void loop() {
-  int sensorStatus = digitalRead(irSensor);
-
-  if (sensorStatus == LOW) {
-    digitalWrite(led, HIGH);
-  }
-  else {
-    digitalWrite(led, LOW);
-  }
-}
-
 
 
 7. Output
@@ -138,33 +116,6 @@ The updated count is displayed in the Serial Monitor.
 When the object moves away, the system resets and waits for the next detection.
 This ensures every object is counted once.
 
-10. Arduino Code
-
-int irSensor = 2;
-int count = 0;
-bool detected = false;
-
-void setup() {
-  pinMode(irSensor, INPUT);
-  Serial.begin(9600);
-}
-
-void loop() {
-  int sensorStatus = digitalRead(irSensor);
-
-  if (sensorStatus == LOW && detected == false) {
-    count++;
-
-    Serial.print("Count: ");
-    Serial.println(count);
-
-    detected = true;
-  }
-
-  if (sensorStatus == HIGH) {
-    detected = false;
-  }
-}
 
 
 7. Output
