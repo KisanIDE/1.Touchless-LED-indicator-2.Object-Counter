@@ -1,32 +1,43 @@
-int irSensor = 2;   // IR sensor connected to pin 2
-int led = 8;        // LED connected to pin 8
+// IR Sensor Object Counter
+
+int irSensor = 2;            // IR sensor connected to pin 2
+
+int objectCount = 0;         // stores total object count
+bool objectPresent = false;  // remembers if object is already in front
 
 void setup() {
-  pinMode(irSensor, INPUT);
-  pinMode(led, OUTPUT);
 
-  Serial.begin(9600);   // Start Serial Monitor
+  pinMode(irSensor, INPUT);
+
+  Serial.begin(9600);
+
+  Serial.println("Object Counter Started");
 }
 
 void loop() {
 
-  int sensorStatus = digitalRead(irSensor);
+  // read sensor
+  int sensorValue = digitalRead(irSensor);
 
-  // Print sensor value in Serial Monitor
-  Serial.print("Sensor Value: ");
-  Serial.println(sensorStatus);
 
-  // If object detected
-  if (sensorStatus == LOW) {
-    digitalWrite(led, HIGH);
-    Serial.println("Object Detected → LED ON");
+  // object detected for first time
+  if (sensorValue == LOW && objectPresent == false) {
+
+    objectCount = objectCount + 1;
+
+    Serial.print("Object Count = ");
+    Serial.println(objectCount);
+
+    // mark object as already counted
+    objectPresent = true;
+
+    delay(300);
   }
 
-  // If no object
-  else {
-    digitalWrite(led, LOW);
-    Serial.println("No Object → LED OFF");
-  }
 
-  delay(300); // small delay for stable output
+  // object removed → ready for next count
+  if (sensorValue == HIGH) {
+
+    objectPresent = false;
+  }
 }
